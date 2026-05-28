@@ -2,7 +2,7 @@
 
 ## Interactive Instructor App — Current Branch Setup
 
-This section is a professional but temporary setup note for the `interactive-instructor-ui` branch. It is not the final project README. This branch contains the React + Spring Boot interactive instructor app, with the React frontend preserving backend-driven behavior from the existing Spring Boot APIs.
+This section is a temporary setup note for the `interactive-instructor-ui` branch. It is not the final project README. This branch contains the React + Spring Boot interactive instructor app, with the React frontend preserving backend-driven behavior from the existing Spring Boot APIs.
 
 ### Run Locally
 
