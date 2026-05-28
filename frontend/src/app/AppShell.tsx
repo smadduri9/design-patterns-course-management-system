@@ -14,7 +14,8 @@ export function AppShell({ children }: AppShellProps) {
           <h1>Course Management System</h1>
         </div>
         <nav aria-label="Primary navigation">
-          <NavLink to="/">Shell</NavLink>
+          <NavLink to="/">Dashboard</NavLink>
+          <NavLink to="/trace">Full Trace</NavLink>
         </nav>
       </header>
       <main className="app-main">{children}</main>

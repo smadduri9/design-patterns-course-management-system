@@ -1,11 +1,34 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { App } from './App';
 
 describe('App shell', () => {
-  it('renders the scaffold home route', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('renders the dashboard route inside the shell', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn((url: string) => {
+        if (url === '/api/app/dashboard') {
+          return Promise.resolve(jsonResponse({
+            instructor: { id: 'instructor-id', name: 'Sriram Madduri', role: 'INSTRUCTOR' },
+            counts: { courses: 1, students: 5, assignments: 2, submissions: 3, traceEvents: 4 },
+          }));
+        }
+        if (url === '/api/app/patterns') {
+          return Promise.resolve(jsonResponse([]));
+        }
+        if (url === '/api/app/trace') {
+          return Promise.resolve(jsonResponse([]));
+        }
+        return Promise.resolve(jsonResponse({}, 404));
+      }),
+    );
+
     render(
       <MemoryRouter initialEntries={['/']}>
         <App />
@@ -13,7 +36,15 @@ describe('App shell', () => {
     );
 
     expect(screen.getByRole('heading', { name: /course management system/i })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: /frontend shell is ready/i })).toBeInTheDocument();
-    expect(screen.getByText(/\/api\/app/i)).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: /sriram madduri/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /dashboard/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /full trace/i })).toBeInTheDocument();
   });
 });
+
+function jsonResponse(body: unknown, status = 200) {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: { 'Content-Type': 'application/json' },
+  });
+}
