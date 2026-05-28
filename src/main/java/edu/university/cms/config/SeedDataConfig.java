@@ -22,7 +22,27 @@ public class SeedDataConfig {
             ));
             userRepository.save(new User(
                     UUID.fromString("20000000-0000-0000-0000-000000000001"),
-                    "Demo Student",
+                    "Demo Student 1",
+                    UserRole.STUDENT
+            ));
+            userRepository.save(new User(
+                    UUID.fromString("20000000-0000-0000-0000-000000000002"),
+                    "Demo Student 2",
+                    UserRole.STUDENT
+            ));
+            userRepository.save(new User(
+                    UUID.fromString("20000000-0000-0000-0000-000000000003"),
+                    "Demo Student 3",
+                    UserRole.STUDENT
+            ));
+            userRepository.save(new User(
+                    UUID.fromString("20000000-0000-0000-0000-000000000004"),
+                    "Demo Student 4",
+                    UserRole.STUDENT
+            ));
+            userRepository.save(new User(
+                    UUID.fromString("20000000-0000-0000-0000-000000000005"),
+                    "Demo Student 5",
                     UserRole.STUDENT
             ));
         };
