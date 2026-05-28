@@ -191,9 +191,11 @@ export function SubmissionsPage() {
 
   return (
     <section className="page-stack" aria-labelledby="submissions-title">
-      <div className="hero-card hero-card--compact">
-        <p className="eyebrow">Submissions</p>
-        <h2 id="submissions-title">Submissions and Mock AI Analysis</h2>
+      <div className="hero-card hero-card--compact page-hero">
+        <div>
+          <p className="eyebrow">Submissions</p>
+          <h2 id="submissions-title">Submissions and Mock AI Analysis</h2>
+        </div>
         <p>
           Create backend submissions, then explicitly run Mock AI Analysis or the Mock Java sandbox/test runner through the
           existing Spring Boot APIs.
@@ -276,8 +278,16 @@ export function SubmissionsPage() {
                     key={submission.id}
                     onClick={() => setSelectedSubmissionId(submission.id)}
                   >
-                    <strong>{submission.student.name}</strong>
-                    <span>{submission.id}</span>
+                    <div className="entity-card__header">
+                      <span className="card-icon card-icon--accent" aria-hidden="true">SU</span>
+                      <div>
+                        <strong>{submission.student.name}</strong>
+                        <span>{submission.id}</span>
+                      </div>
+                      <span className={`badge ${submission.hasAnalysisReport ? 'badge--accent' : 'badge--info'}`}>
+                        Status: {submission.status}
+                      </span>
+                    </div>
                     <small>
                       {submission.type} · {submission.status} · {formatDateTime(submission.submittedAt)}
                     </small>
@@ -288,7 +298,7 @@ export function SubmissionsPage() {
             ) : null}
           </section>
 
-          <section className="card" aria-labelledby="create-submission-title">
+          <section className="card form-card" aria-labelledby="create-submission-title">
             <div className="section-heading">
               <div>
                 <p className="eyebrow">Create Submission</p>

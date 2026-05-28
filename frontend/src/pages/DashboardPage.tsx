@@ -59,9 +59,11 @@ export function DashboardPage() {
   return (
     <div className="dashboard-layout">
       <section className="dashboard-main">
-        <div className="hero-card">
-          <p className="eyebrow">Instructor Dashboard</p>
-          <h2>Interactive instructor app</h2>
+        <div className="hero-card page-hero">
+          <div>
+            <p className="eyebrow">Instructor Dashboard</p>
+            <h2>Interactive instructor app</h2>
+          </div>
           <p>
             Follow the professor demo from course setup through assignments, submissions, Mock AI review,
             final feedback, and backend PatternTraceService evidence. Every value shown here comes from
@@ -126,7 +128,7 @@ export function DashboardPage() {
           ) : (
             <div className="pattern-cloud">
               {patterns.map((pattern) => (
-                <span key={pattern.key}>
+                <span className="pattern-chip" key={pattern.key}>
                   {pattern.displayName} · {pattern.category}
                 </span>
               ))}

@@ -142,9 +142,11 @@ export function CoursesPage({ createFocused = false }: CoursesPageProps) {
 
   return (
     <section className="page-stack" aria-labelledby="courses-title">
-      <div className="hero-card hero-card--compact">
-        <p className="eyebrow">{createFocused ? 'Course Builder' : 'Courses'}</p>
-        <h2 id="courses-title">{createFocused ? 'Create a backend course' : 'Courses and roster'}</h2>
+      <div className="hero-card hero-card--compact page-hero">
+        <div>
+          <p className="eyebrow">{createFocused ? 'Course Builder' : 'Courses'}</p>
+          <h2 id="courses-title">{createFocused ? 'Create a backend course' : 'Courses and roster'}</h2>
+        </div>
         <p>
           This screen reads and writes course data through the Spring Boot <code>/api/app/courses</code> APIs.
           Roster enrollment uses real seeded students from <code>/api/app/students</code>.
@@ -155,7 +157,7 @@ export function CoursesPage({ createFocused = false }: CoursesPageProps) {
 
       <section className="courses-layout">
         <div className="page-stack">
-          <section className="card" aria-labelledby="create-course-title">
+          <section className="card form-card" aria-labelledby="create-course-title">
             <div className="section-heading">
               <div>
                 <p className="eyebrow">Create Course</p>
@@ -202,11 +204,17 @@ export function CoursesPage({ createFocused = false }: CoursesPageProps) {
                     type="button"
                     onClick={() => setSelectedCourseId(course.id)}
                   >
-                    <strong>{course.title}</strong>
-                    <span>{course.id}</span>
-                    <small>
-                      {course.rosterCount} enrolled · {course.assignmentCount} assignments
-                    </small>
+                    <div className="course-card__body">
+                      <span className="card-icon" aria-hidden="true">CO</span>
+                      <div>
+                        <strong>{course.title}</strong>
+                        <span>{course.id}</span>
+                        <small>
+                          {course.rosterCount} enrolled · {course.assignmentCount} assignments
+                        </small>
+                      </div>
+                    </div>
+                    <span className="badge badge--success">Active</span>
                   </button>
                 ))}
               </div>

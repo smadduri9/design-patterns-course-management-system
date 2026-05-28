@@ -222,9 +222,11 @@ export function FeedbackReviewPage() {
 
   return (
     <section className="page-stack" aria-labelledby="feedback-title">
-      <div className="hero-card hero-card--compact">
-        <p className="eyebrow">Feedback Review</p>
-        <h2 id="feedback-title">Instructor feedback review</h2>
+      <div className="hero-card hero-card--compact page-hero">
+        <div>
+          <p className="eyebrow">Feedback Review</p>
+          <h2 id="feedback-title">Instructor feedback review</h2>
+        </div>
         <p>
           Review backend analysis results, save feedback drafts, restore draft snapshots, and send final feedback through
           the Spring Boot feedback APIs.
@@ -281,8 +283,16 @@ export function FeedbackReviewPage() {
                     key={submission.id}
                     onClick={() => setSelectedSubmissionId(submission.id)}
                   >
-                    <strong>{submission.student.name}</strong>
-                    <span>{submission.id}</span>
+                    <div className="entity-card__header">
+                      <span className="card-icon card-icon--accent" aria-hidden="true">FR</span>
+                      <div>
+                        <strong>{submission.student.name}</strong>
+                        <span>{submission.id}</span>
+                      </div>
+                      <span className={`badge ${submission.hasAnalysisReport ? 'badge--accent' : 'badge--muted'}`}>
+                        Status: {submission.status}
+                      </span>
+                    </div>
                     <small>
                       {submission.type} · {submission.status} · {submission.hasAnalysisReport ? 'Has analysis' : 'No analysis yet'}
                     </small>
@@ -292,7 +302,7 @@ export function FeedbackReviewPage() {
             ) : null}
           </section>
 
-          <section className="card" aria-labelledby="drafts-title">
+          <section className="card form-card" aria-labelledby="drafts-title">
             <div className="section-heading">
               <div>
                 <p className="eyebrow">Memento Drafts</p>

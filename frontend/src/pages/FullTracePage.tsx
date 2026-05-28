@@ -88,13 +88,15 @@ export function FullTracePage() {
 
   return (
     <section className="page-stack" aria-labelledby="full-trace-title">
-      <section className="hero-card hero-card--compact">
-        <p className="eyebrow">Full Trace</p>
-        <h2 id="full-trace-title">Backend Design Pattern Trace</h2>
+      <section className="hero-card hero-card--compact page-hero">
+        <div>
+          <p className="eyebrow">Full Trace</p>
+          <h2 id="full-trace-title">Backend Design Pattern Trace</h2>
+        </div>
         <p>Only official backend PatternTraceService events are shown here.</p>
       </section>
 
-      <section className="card" aria-labelledby="trace-filter-title">
+      <section className="card trace-filter-card" aria-labelledby="trace-filter-title">
         <div className="section-heading">
           <div>
             <p className="eyebrow">Evidence Filters</p>
@@ -166,7 +168,7 @@ export function FullTracePage() {
         </form>
       </section>
 
-      <section className="card" aria-labelledby="trace-results-title">
+      <section className="card trace-results-card" aria-labelledby="trace-results-title">
         <div className="section-heading">
           <div>
             <p className="eyebrow">PatternTraceService</p>
@@ -195,7 +197,7 @@ export function FullTracePage() {
               <div className="trace-table__row" role="row" key={`${event.timestamp}-${event.className}-${event.description}`}>
                 <span role="cell">{formatDateTime(event.timestamp)}</span>
                 <span role="cell">{event.userAction}</span>
-                <span role="cell">{event.patternDisplayName}</span>
+                <span role="cell"><span className="trace-card__pattern">{event.patternDisplayName}</span></span>
                 <span role="cell">
                   <span className={`category-badge category-badge--${event.category.toLowerCase()}`}>{event.category}</span>
                 </span>
@@ -206,6 +208,13 @@ export function FullTracePage() {
             ))}
           </div>
         ) : null}
+      </section>
+
+      <section className="card trace-service-note" aria-label="PatternTraceService note">
+        <p>
+          PatternTraceService Events: only official backend events are shown here. Each row represents a design pattern
+          execution triggered by instructor actions in the Spring Boot backend.
+        </p>
       </section>
     </section>
   );

@@ -166,9 +166,11 @@ export function AssignmentsPage() {
 
   return (
     <section className="page-stack" aria-labelledby="assignments-title">
-      <div className="hero-card hero-card--compact">
-        <p className="eyebrow">Assignments</p>
-        <h2 id="assignments-title">Assignment and rubric builder</h2>
+      <div className="hero-card hero-card--compact page-hero">
+        <div>
+          <p className="eyebrow">Assignments</p>
+          <h2 id="assignments-title">Assignment and rubric builder</h2>
+        </div>
         <p>
           This screen uses backend course and assignment APIs only. Submissions and analysis remain out of scope for this phase.
         </p>
@@ -214,9 +216,13 @@ export function AssignmentsPage() {
               <div className="assignment-list" aria-label="Assignments">
                 {assignments.map((assignment) => (
                   <article className="assignment-card" key={assignment.id}>
-                    <div>
-                      <h3>{assignment.title}</h3>
-                      <p>{assignment.description}</p>
+                    <div className="entity-card__header">
+                      <span className="card-icon card-icon--accent" aria-hidden="true">AS</span>
+                      <div>
+                        <h3>{assignment.title}</h3>
+                        <p>{assignment.description}</p>
+                      </div>
+                      <span className="badge badge--accent">Type: {assignment.acceptedSubmissionTypes.join(', ')}</span>
                     </div>
                     <dl>
                       <div>
@@ -246,7 +252,7 @@ export function AssignmentsPage() {
           </section>
         </div>
 
-        <section className="card" aria-labelledby="create-assignment-title">
+        <section className="card form-card" aria-labelledby="create-assignment-title">
           <div className="section-heading">
             <div>
               <p className="eyebrow">Create Assignment</p>

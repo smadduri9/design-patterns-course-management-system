@@ -125,9 +125,11 @@ export function StudentFeedbackPage() {
 
   return (
     <section className="page-stack" aria-labelledby="student-feedback-title">
-      <div className="hero-card hero-card--compact">
-        <p className="eyebrow">Student Feedback</p>
-        <h2 id="student-feedback-title">Finalized student feedback</h2>
+      <div className="hero-card hero-card--compact page-hero">
+        <div>
+          <p className="eyebrow">Student Feedback</p>
+          <h2 id="student-feedback-title">Finalized student feedback</h2>
+        </div>
         <p>
           Select a backend submission and render the finalized feedback returned by the student feedback API. Drafts and
           unfinalized responses are shown as unavailable instead of mocked.
@@ -183,8 +185,16 @@ export function StudentFeedbackPage() {
                   key={submission.id}
                   onClick={() => setSelectedSubmissionId(submission.id)}
                 >
-                  <strong>{submission.student.name}</strong>
-                  <span>{submission.id}</span>
+                  <div className="entity-card__header">
+                    <span className="card-icon card-icon--accent" aria-hidden="true">SF</span>
+                    <div>
+                      <strong>{submission.student.name}</strong>
+                      <span>{submission.id}</span>
+                    </div>
+                    <span className={`badge ${submission.hasAnalysisReport ? 'badge--accent' : 'badge--muted'}`}>
+                      Status: {submission.status}
+                    </span>
+                  </div>
                   <small>
                     {submission.type} · {submission.status} · {submission.hasAnalysisReport ? 'Has analysis' : 'No analysis yet'}
                   </small>
@@ -204,7 +214,7 @@ export function StudentFeedbackPage() {
 
           {!selectedSubmissionId ? <p className="muted">Select a submission to load finalized student feedback.</p> : null}
           {isLoadingFeedback ? <p className="muted">Loading finalized student feedback...</p> : null}
-          {feedbackMessage ? <p className="muted">{feedbackMessage}</p> : null}
+          {feedbackMessage ? <p className="muted empty-state-card">{feedbackMessage}</p> : null}
 
           {feedback ? (
             <div className="page-stack">

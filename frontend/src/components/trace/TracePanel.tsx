@@ -57,23 +57,28 @@ export function TracePanel({
         {showFullTraceLink ? <Link to="/trace">View all</Link> : null}
       </div>
 
-      {isLoading ? <p className="muted">Loading backend trace events...</p> : null}
-      {error ? <p className="error-text">{error}</p> : null}
+      {isLoading ? <p className="muted trace-panel__state">Loading backend trace events...</p> : null}
+      {error ? <p className="error-text trace-panel__state">{error}</p> : null}
       {!isLoading && !error && events.length === 0 ? (
-        <p className="muted">No backend trace events yet.</p>
+        <p className="muted trace-panel__state">No backend trace events yet.</p>
       ) : null}
       {!isLoading && !error && visibleEvents.length > 0 ? (
         <ol className="trace-list" aria-label="Backend trace events">
-          {visibleEvents.map((event) => (
+          {visibleEvents.map((event, index) => (
             <li
               className={`trace-card trace-card--${event.category.toLowerCase()}`}
               key={`${event.timestamp}-${event.className}-${event.description}`}
             >
+              <div className="trace-card__meta">
+                <span>{formatTime(event.timestamp)}</span>
+                {index === 0 ? <span className="badge badge--info">Latest</span> : null}
+              </div>
               <div className="trace-list__header">
-                <span>{event.patternDisplayName}</span>
-                <span className={`category-badge category-badge--${event.category.toLowerCase()}`}>
-                  {event.category}
-                </span>
+                <span>{event.userAction}</span>
+              </div>
+              <div className="trace-card__badges">
+                <span className="trace-card__pattern">{event.patternDisplayName}</span>
+                <span className={`category-badge category-badge--${event.category.toLowerCase()}`}>{event.category}</span>
               </div>
               <p>{event.description}</p>
               <small>
@@ -88,6 +93,17 @@ export function TracePanel({
         <span><i className="trace-dot trace-dot--structural" />Structural</span>
         <span><i className="trace-dot trace-dot--behavioral" />Behavioral</span>
       </div>
+      <div className="trace-panel__footer">
+        <span>Total Events: {events.length}</span>
+        {showFullTraceLink ? <Link to="/trace">Evidence archive</Link> : null}
+      </div>
     </aside>
   );
+}
+
+function formatTime(value: string) {
+  return new Intl.DateTimeFormat(undefined, {
+    hour: 'numeric',
+    minute: '2-digit',
+  }).format(new Date(value));
 }

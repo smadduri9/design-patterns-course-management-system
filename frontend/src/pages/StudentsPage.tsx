@@ -36,18 +36,20 @@ export function StudentsPage() {
 
   return (
     <section className="page-stack" aria-labelledby="students-title">
-      <div className="hero-card hero-card--compact">
-        <p className="eyebrow">Student Roster</p>
-        <h2 id="students-title">Seeded students from the backend</h2>
+      <div className="hero-card hero-card--compact page-hero">
+        <div>
+          <p className="eyebrow">Student Roster</p>
+          <h2 id="students-title">Seeded students from the backend</h2>
+        </div>
         <p>
-          This page reads only from <code>/api/app/students</code>. Enrollment workflows will be wired in a later frontend phase.
+          This page reads only from <code>/api/app/students</code>. Enrollment workflows remain on the Courses page.
         </p>
       </div>
 
       {isLoading ? <section className="card">Loading students...</section> : null}
       {error ? <section className="card error-text">{error}</section> : null}
       {!isLoading && !error ? (
-        <section className="student-grid" aria-label="Seeded students">
+        <section className="student-grid student-grid--roster" aria-label="Seeded students">
           {students.map((student) => (
             <article className="student-card" key={student.id}>
               <div className="avatar" aria-hidden="true">
@@ -58,6 +60,7 @@ export function StudentsPage() {
                 <p>{student.role}</p>
                 <small>Email not provided by backend API</small>
               </div>
+              <span className="badge badge--success">Backend seeded</span>
             </article>
           ))}
         </section>
