@@ -360,6 +360,120 @@ code {
   font-size: 1.3rem;
 }
 
+.courses-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(340px, 0.9fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.inline-form {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.inline-form label {
+  display: grid;
+  gap: var(--space-2);
+  color: var(--color-muted);
+  font-weight: 700;
+}
+
+input {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: #ffffff;
+  color: var(--color-text);
+  font: inherit;
+  padding: 0.8rem 0.9rem;
+}
+
+button {
+  border: 0;
+  border-radius: 12px;
+  background: var(--color-primary);
+  color: #ffffff;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 800;
+  padding: 0.8rem 1rem;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.course-list {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.course-card {
+  display: grid;
+  gap: var(--space-2);
+  width: 100%;
+  border: 1px solid var(--color-border);
+  background: #ffffff;
+  color: var(--color-text);
+  text-align: left;
+}
+
+.course-card--selected {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px #eef2ff;
+}
+
+.course-card span,
+.course-card small,
+.compact-list small {
+  color: var(--color-muted);
+  overflow-wrap: anywhere;
+}
+
+.roster-panel {
+  position: sticky;
+  top: var(--space-6);
+}
+
+.compact-list {
+  display: grid;
+  gap: var(--space-2);
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.compact-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: var(--space-3);
+}
+
+.checkbox-list {
+  display: grid;
+  gap: var(--space-2);
+  margin: var(--space-3) 0 var(--space-4);
+}
+
+.checkbox-list label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: var(--space-3);
+}
+
+.checkbox-list input {
+  width: auto;
+}
+
 @media (max-width: 920px) {
   .app-layout {
     grid-template-columns: 1fr;
@@ -387,7 +501,15 @@ code {
     grid-template-columns: 1fr;
   }
 
+  .courses-layout {
+    grid-template-columns: 1fr;
+  }
+
   .trace-panel {
+    position: static;
+  }
+
+  .roster-panel {
     position: static;
   }
 

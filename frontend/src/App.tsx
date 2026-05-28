@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 
 import { AppShell } from './app/AppShell';
+import { CoursesPage } from './pages/CoursesPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { FullTracePage } from './pages/FullTracePage';
 import { PendingApiPage } from './pages/PendingApiPage';
@@ -20,14 +21,8 @@ export function App() {
     <AppShell>
       <Routes>
         <Route path="/" element={<DashboardPage />} />
-        <Route
-          path="/courses"
-          element={<PendingApiPage title="Courses" eyebrow="Courses" apiHint="/api/app/courses" />}
-        />
-        <Route
-          path="/courses/new"
-          element={<PendingApiPage title="Course Builder" eyebrow="Course Builder" apiHint="/api/app/courses" />}
-        />
+        <Route path="/courses" element={<CoursesPage />} />
+        <Route path="/courses/new" element={<CoursesPage createFocused />} />
         <Route path="/students" element={<StudentsPage />} />
         <Route
           path="/assignments"

@@ -51,12 +51,12 @@ describe('App shell', () => {
     vi.stubGlobal('fetch', vi.fn());
 
     render(
-      <MemoryRouter initialEntries={['/courses']}>
+      <MemoryRouter initialEntries={['/assignments']}>
         <App />
       </MemoryRouter>,
     );
 
-    expect(screen.getByRole('heading', { name: /^courses$/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /^assignments$/i })).toBeInTheDocument();
     expect(screen.getAllByText(/Backend API pending/i)).not.toHaveLength(0);
     expect(screen.getByText(/No mock records shown/i)).toBeInTheDocument();
   });
