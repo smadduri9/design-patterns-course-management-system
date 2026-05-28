@@ -10,7 +10,7 @@ describe('TracePanel', () => {
   });
 
   it('renders mocked backend trace events', async () => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(jsonResponse([
+    const fetchMock = vi.fn().mockResolvedValue(jsonResponse([
       traceEvent({
         pattern: 'ADAPTER',
         patternDisplayName: 'Adapter',
@@ -19,7 +19,8 @@ describe('TracePanel', () => {
         description: 'Adapted mock AI response for rubric analysis',
         workflowStep: 'Mock AI analysis',
       }),
-    ])));
+    ]));
+    vi.stubGlobal('fetch', fetchMock);
 
     render(
       <MemoryRouter>
@@ -30,6 +31,12 @@ describe('TracePanel', () => {
     expect(await screen.findByText('Adapter')).toBeInTheDocument();
     expect(screen.getByText(/Adapted mock AI response/i)).toBeInTheDocument();
     expect(screen.getByText(/MockAIServiceAdapter/i)).toBeInTheDocument();
+    expect(fetchMock).toHaveBeenCalledWith('/api/app/trace', {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+      },
+    });
   });
 
   it('shows an empty state when the backend trace API returns no events', async () => {
