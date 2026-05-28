@@ -1,4 +1,5 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import {
   createCourse,
@@ -182,7 +183,10 @@ export function CoursesPage({ createFocused = false }: CoursesPageProps) {
                 <p className="eyebrow">Backend Courses</p>
                 <h2 id="courses-list-title">Course list</h2>
               </div>
-              <span className="badge">{courses.length} courses</span>
+              <div className="heading-actions">
+                <Link to="/assignments">Manage assignments</Link>
+                <span className="badge">{courses.length} courses</span>
+              </div>
             </div>
 
             {isLoadingCourses ? <p className="muted">Loading courses...</p> : null}

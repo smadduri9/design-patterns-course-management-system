@@ -1,5 +1,6 @@
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { MemoryRouter } from 'react-router-dom';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { CoursesPage } from './CoursesPage';
@@ -17,7 +18,7 @@ describe('CoursesPage', () => {
   it('shows a loading state while courses are loading', () => {
     vi.stubGlobal('fetch', vi.fn(() => new Promise(() => undefined)));
 
-    render(<CoursesPage />);
+    renderCoursesPage();
 
     expect(screen.getByText(/Loading courses/i)).toBeInTheDocument();
   });
@@ -29,7 +30,7 @@ describe('CoursesPage', () => {
       students: [studentOne, studentTwo, studentThree],
     }));
 
-    render(<CoursesPage />);
+    renderCoursesPage();
 
     expect(await screen.findByText('Design Patterns CS501')).toBeInTheDocument();
     expect(screen.getByText(/course-1/i)).toBeInTheDocument();
@@ -48,7 +49,7 @@ describe('CoursesPage', () => {
     vi.stubGlobal('fetch', fetchMock);
     const user = userEvent.setup();
 
-    render(<CoursesPage />);
+    renderCoursesPage();
 
     expect(await screen.findByText(/No courses from the backend yet/i)).toBeInTheDocument();
     await user.type(screen.getByLabelText(/Course title/i), 'New Backend Course');
@@ -75,7 +76,7 @@ describe('CoursesPage', () => {
     }));
     const user = userEvent.setup();
 
-    render(<CoursesPage />);
+    renderCoursesPage();
 
     await screen.findByText('First Course');
     await user.click(screen.getByRole('button', { name: /Second Course/i }));
@@ -97,7 +98,7 @@ describe('CoursesPage', () => {
     vi.stubGlobal('fetch', fetchMock);
     const user = userEvent.setup();
 
-    render(<CoursesPage />);
+    renderCoursesPage();
 
     expect(await screen.findByText('Roster Course')).toBeInTheDocument();
     const availableStudents = await screen.findByLabelText('Available students');
@@ -111,6 +112,14 @@ describe('CoursesPage', () => {
     }));
   });
 });
+
+function renderCoursesPage() {
+  return render(
+    <MemoryRouter>
+      <CoursesPage />
+    </MemoryRouter>,
+  );
+}
 
 type FetchMockOptions = {
   courses: ReturnType<typeof course>[];

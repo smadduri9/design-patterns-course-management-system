@@ -360,6 +360,14 @@ code {
   font-size: 1.3rem;
 }
 
+.heading-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  justify-content: flex-end;
+}
+
 .courses-layout {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(340px, 0.9fr);
@@ -387,6 +395,22 @@ input {
   color: var(--color-text);
   font: inherit;
   padding: 0.8rem 0.9rem;
+}
+
+select,
+textarea {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: #ffffff;
+  color: var(--color-text);
+  font: inherit;
+  padding: 0.8rem 0.9rem;
+}
+
+textarea {
+  min-height: 96px;
+  resize: vertical;
 }
 
 button {
@@ -474,6 +498,102 @@ button:disabled {
   width: auto;
 }
 
+.assignments-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.9fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.field {
+  display: grid;
+  gap: var(--space-2);
+  color: var(--color-muted);
+  font-weight: 700;
+}
+
+.assignment-list {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+.assignment-card {
+  display: grid;
+  gap: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+}
+
+.assignment-card h3 {
+  margin: 0 0 var(--space-2);
+}
+
+.assignment-card p {
+  margin: 0;
+  color: var(--color-muted);
+}
+
+.assignment-card dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.assignment-card dt {
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.assignment-card dd {
+  margin: 0.2rem 0 0;
+  overflow-wrap: anywhere;
+}
+
+.assignment-form {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.criteria-editor {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.criteria-editor .section-heading {
+  align-items: center;
+  margin-bottom: 0;
+}
+
+.criteria-editor h3 {
+  margin: 0;
+}
+
+.criterion-card {
+  display: grid;
+  gap: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  margin: 0;
+  padding: var(--space-4);
+}
+
+.criterion-card legend {
+  color: var(--color-primary-dark);
+  font-weight: 800;
+  padding: 0 var(--space-2);
+}
+
 @media (max-width: 920px) {
   .app-layout {
     grid-template-columns: 1fr;
@@ -502,6 +622,12 @@ button:disabled {
   }
 
   .courses-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .assignments-layout,
+  .assignment-card dl,
+  .form-grid {
     grid-template-columns: 1fr;
   }
 

@@ -108,7 +108,7 @@ export type RubricResponse = {
 
 export type AssignmentResponse = {
   id: string;
-  courseId: string | null;
+  courseId: string;
   title: string;
   description: string;
   dueDate: string;
