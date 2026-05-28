@@ -82,8 +82,12 @@ export function DashboardPage() {
             <section className="stat-grid" aria-label="Dashboard counts">
               {Object.entries(dashboard.counts).map(([key, value]) => (
                 <article className="stat-card" key={key}>
-                  <span>{countLabels[key as keyof DashboardResponse['counts']]}</span>
+                  <div className="stat-card__topline">
+                    <span>{countLabels[key as keyof DashboardResponse['counts']]}</span>
+                    <i aria-hidden="true">{String(countLabels[key as keyof DashboardResponse['counts']][0])}</i>
+                  </div>
                   <strong>{value}</strong>
+                  <small>Backend count</small>
                 </article>
               ))}
             </section>

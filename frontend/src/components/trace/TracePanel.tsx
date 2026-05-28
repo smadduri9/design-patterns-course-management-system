@@ -65,10 +65,15 @@ export function TracePanel({
       {!isLoading && !error && visibleEvents.length > 0 ? (
         <ol className="trace-list" aria-label="Backend trace events">
           {visibleEvents.map((event) => (
-            <li key={`${event.timestamp}-${event.className}-${event.description}`}>
+            <li
+              className={`trace-card trace-card--${event.category.toLowerCase()}`}
+              key={`${event.timestamp}-${event.className}-${event.description}`}
+            >
               <div className="trace-list__header">
-                <span className="badge">{event.patternDisplayName}</span>
-                <span className="trace-category">{event.category}</span>
+                <span>{event.patternDisplayName}</span>
+                <span className={`category-badge category-badge--${event.category.toLowerCase()}`}>
+                  {event.category}
+                </span>
               </div>
               <p>{event.description}</p>
               <small>
@@ -78,6 +83,11 @@ export function TracePanel({
           ))}
         </ol>
       ) : null}
+      <div className="trace-legend" aria-label="Pattern categories">
+        <span><i className="trace-dot trace-dot--creational" />Creational</span>
+        <span><i className="trace-dot trace-dot--structural" />Structural</span>
+        <span><i className="trace-dot trace-dot--behavioral" />Behavioral</span>
+      </div>
     </aside>
   );
 }
