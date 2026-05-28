@@ -43,22 +43,22 @@ describe('App shell', () => {
     expect(screen.getByRole('link', { name: /students/i })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /assignments/i })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /submissions/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /feedback review/i })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /student feedback/i })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /full trace/i })).toBeInTheDocument();
   });
 
-  it('renders pending pages for future workflow routes without business placeholders', () => {
+  it('renders a reserved route message for unknown routes', () => {
     vi.stubGlobal('fetch', vi.fn());
 
     render(
-      <MemoryRouter initialEntries={['/student-feedback']}>
+      <MemoryRouter initialEntries={['/unknown-route']}>
         <App />
       </MemoryRouter>,
     );
 
-    expect(screen.getByRole('heading', { name: /^student feedback$/i })).toBeInTheDocument();
-    expect(screen.getAllByText(/Backend API pending/i)).not.toHaveLength(0);
-    expect(screen.getByText(/No mock records shown/i)).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /^route placeholder$/i })).toBeInTheDocument();
+    expect(screen.getByText(/reserved for a future frontend phase/i)).toBeInTheDocument();
   });
 });
 

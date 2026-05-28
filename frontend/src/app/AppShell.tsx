@@ -12,6 +12,7 @@ const navItems = [
   { to: '/students', label: 'Students' },
   { to: '/assignments', label: 'Assignments' },
   { to: '/submissions', label: 'Submissions' },
+  { to: '/feedback', label: 'Feedback Review' },
   { to: '/student-feedback', label: 'Student Feedback' },
   { to: '/trace', label: 'Full Trace' },
 ];

@@ -675,6 +675,20 @@ button:disabled {
   margin: 0;
 }
 
+.feedback-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.9fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.button-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
 @media (max-width: 920px) {
   .app-layout {
     grid-template-columns: 1fr;
@@ -708,6 +722,7 @@ button:disabled {
 
   .assignments-layout,
   .submissions-layout,
+  .feedback-layout,
   .assignment-card dl,
   .form-grid {
     grid-template-columns: 1fr;
