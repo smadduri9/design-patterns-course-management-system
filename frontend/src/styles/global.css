@@ -289,6 +289,10 @@ code {
   padding: var(--space-3);
 }
 
+.trace-table--full .trace-table__row {
+  grid-template-columns: 1.1fr 1.1fr 1fr 0.9fr 1.1fr 1.1fr 1.8fr;
+}
+
 .trace-table__row:first-child {
   border-top: 0;
 }
@@ -299,6 +303,40 @@ code {
   font-size: 0.8rem;
   font-weight: 700;
   text-transform: uppercase;
+}
+
+.trace-filter-form {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.trace-filter-actions {
+  grid-column: 1 / -1;
+}
+
+.category-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 0.3rem 0.6rem;
+}
+
+.category-badge--creational {
+  background: #ecfdf3;
+  color: #027a48;
+}
+
+.category-badge--structural {
+  background: #eff6ff;
+  color: #175cd3;
+}
+
+.category-badge--behavioral {
+  background: #fef3f2;
+  color: #b42318;
 }
 
 .error-text {
