@@ -1,5 +1,6 @@
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { MemoryRouter } from 'react-router-dom';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { AssignmentsPage } from './AssignmentsPage';
@@ -14,7 +15,7 @@ describe('AssignmentsPage', () => {
   it('shows a loading state while backend assignments are loading', async () => {
     vi.stubGlobal('fetch', vi.fn(() => new Promise(() => undefined)));
 
-    render(<AssignmentsPage />);
+    renderAssignmentsPage();
 
     expect(screen.getByText(/Loading assignments/i)).toBeInTheDocument();
   });
@@ -33,7 +34,7 @@ describe('AssignmentsPage', () => {
     vi.stubGlobal('fetch', fetchMock);
     const user = userEvent.setup();
 
-    render(<AssignmentsPage />);
+    renderAssignmentsPage();
 
     await screen.findByText(/No assignments from the backend/i);
     await user.selectOptions(screen.getAllByLabelText('Course')[0], 'course-2');
@@ -50,7 +51,7 @@ describe('AssignmentsPage', () => {
       assignments: { 'course-1': [] },
     }));
 
-    render(<AssignmentsPage />);
+    renderAssignmentsPage();
 
     expect(await screen.findByText(/No assignments from the backend for this course yet/i)).toBeInTheDocument();
   });
@@ -61,7 +62,7 @@ describe('AssignmentsPage', () => {
       assignments: { 'course-1': [assignment('assignment-1', 'Adapter Essay', 'course-1')] },
     }));
 
-    render(<AssignmentsPage />);
+    renderAssignmentsPage();
 
     expect(await screen.findByText('Adapter Essay')).toBeInTheDocument();
     expect(screen.getByText('Explain the Adapter pattern.')).toBeInTheDocument();
@@ -82,7 +83,7 @@ describe('AssignmentsPage', () => {
     vi.stubGlobal('fetch', fetchMock);
     const user = userEvent.setup();
 
-    render(<AssignmentsPage />);
+    renderAssignmentsPage();
 
     await screen.findByText(/No assignments from the backend/i);
     await user.type(screen.getByLabelText(/Assignment title/i), 'Strategy Project');
@@ -126,6 +127,14 @@ describe('AssignmentsPage', () => {
     });
   });
 });
+
+function renderAssignmentsPage() {
+  return render(
+    <MemoryRouter>
+      <AssignmentsPage />
+    </MemoryRouter>,
+  );
+}
 
 type CourseFixture = ReturnType<typeof course>;
 type AssignmentFixture = ReturnType<typeof assignment>;

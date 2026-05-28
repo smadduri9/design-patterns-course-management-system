@@ -1,4 +1,5 @@
 import { FormEvent, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { createAssignment, getCourseAssignments } from '../api/assignmentsApi';
 import { getCourses } from '../api/coursesApi';
@@ -237,6 +238,7 @@ export function AssignmentsPage() {
                         <dd>{assignment.id}</dd>
                       </div>
                     </dl>
+                    <Link to="/submissions">Manage submissions</Link>
                   </article>
                 ))}
               </div>

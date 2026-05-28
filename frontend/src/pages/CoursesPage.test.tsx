@@ -55,7 +55,7 @@ describe('CoursesPage', () => {
     await user.type(screen.getByLabelText(/Course title/i), 'New Backend Course');
     await user.click(screen.getByRole('button', { name: /Create course/i }));
 
-    expect(await screen.findByText('New Backend Course')).toBeInTheDocument();
+    expect(await screen.findByRole('button', { name: /New Backend Course/i })).toBeInTheDocument();
     expect(fetchMock).toHaveBeenCalledWith('/api/app/courses', expect.objectContaining({
       method: 'POST',
       body: JSON.stringify({ title: 'New Backend Course' }),

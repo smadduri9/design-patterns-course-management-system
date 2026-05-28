@@ -7,6 +7,7 @@ import { DashboardPage } from './pages/DashboardPage';
 import { FullTracePage } from './pages/FullTracePage';
 import { PendingApiPage } from './pages/PendingApiPage';
 import { StudentsPage } from './pages/StudentsPage';
+import { SubmissionsPage } from './pages/SubmissionsPage';
 
 function NotFound() {
   return (
@@ -26,10 +27,7 @@ export function App() {
         <Route path="/courses/new" element={<CoursesPage createFocused />} />
         <Route path="/students" element={<StudentsPage />} />
         <Route path="/assignments" element={<AssignmentsPage />} />
-        <Route
-          path="/submissions"
-          element={<PendingApiPage title="Submissions" eyebrow="Submissions" apiHint="/api/app/assignments/{assignmentId}/submissions" />}
-        />
+        <Route path="/submissions" element={<SubmissionsPage />} />
         <Route
           path="/student-feedback"
           element={<PendingApiPage title="Student Feedback" eyebrow="Student Feedback" apiHint="/api/app/submissions/{submissionId}/student-feedback" />}
