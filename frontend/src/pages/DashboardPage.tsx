@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { getDashboard } from '../api/dashboardApi';
 import { getPatterns } from '../api/patternsApi';
@@ -12,6 +13,15 @@ const countLabels: Record<keyof DashboardResponse['counts'], string> = {
   submissions: 'Submissions',
   traceEvents: 'Trace Events',
 };
+
+const demoFlow = [
+  { to: '/courses', label: 'Courses', detail: 'Create a course and review roster data.' },
+  { to: '/assignments', label: 'Assignments', detail: 'Build assignments and backend rubrics.' },
+  { to: '/submissions', label: 'Submissions', detail: 'Create submissions and run Mock AI analysis.' },
+  { to: '/feedback', label: 'Feedback Review', detail: 'Save drafts and send final instructor feedback.' },
+  { to: '/student-feedback', label: 'Student Feedback', detail: 'Open the finalized student-facing view.' },
+  { to: '/trace', label: 'Full Trace', detail: 'Filter official PatternTraceService evidence.' },
+];
 
 export function DashboardPage() {
   const [dashboard, setDashboard] = useState<DashboardResponse | null>(null);
@@ -51,9 +61,10 @@ export function DashboardPage() {
       <section className="dashboard-main">
         <div className="hero-card">
           <p className="eyebrow">Instructor Dashboard</p>
-          <h2>React-ready course management app</h2>
+          <h2>Interactive instructor app</h2>
           <p>
-            This screen renders instructor, count, pattern, and trace data returned by the
+            Follow the professor demo from course setup through assignments, submissions, Mock AI review,
+            final feedback, and backend PatternTraceService evidence. Every value shown here comes from
             Spring Boot <code>/api/app</code> endpoints.
           </p>
         </div>
@@ -78,6 +89,25 @@ export function DashboardPage() {
             </section>
           </>
         ) : null}
+
+        <section className="card" aria-labelledby="demo-flow-title">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">Professor Demo Flow</p>
+              <h2 id="demo-flow-title">Recommended walkthrough</h2>
+            </div>
+            <span className="badge">Backend-only data</span>
+          </div>
+          <div className="demo-flow">
+            {demoFlow.map((step, index) => (
+              <Link to={step.to} key={step.to} aria-label={`Demo step ${index + 1}`}>
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <strong>{step.label}</strong>
+                <small>{step.detail}</small>
+              </Link>
+            ))}
+          </div>
+        </section>
 
         <section className="card" aria-labelledby="patterns-title">
           <div className="section-heading">
