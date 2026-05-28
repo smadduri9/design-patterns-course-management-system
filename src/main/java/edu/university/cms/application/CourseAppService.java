@@ -3,6 +3,7 @@ package edu.university.cms.application;
 import edu.university.cms.domain.Course;
 import edu.university.cms.domain.User;
 import edu.university.cms.domain.UserRole;
+import edu.university.cms.repository.CourseAssignmentRepository;
 import edu.university.cms.repository.CourseEnrollmentRepository;
 import edu.university.cms.repository.CourseRepository;
 import edu.university.cms.repository.UserRepository;
@@ -20,15 +21,18 @@ public class CourseAppService {
     private final UserRepository userRepository;
     private final CourseRepository courseRepository;
     private final CourseEnrollmentRepository enrollmentRepository;
+    private final CourseAssignmentRepository courseAssignmentRepository;
 
     public CourseAppService(
             UserRepository userRepository,
             CourseRepository courseRepository,
-            CourseEnrollmentRepository enrollmentRepository
+            CourseEnrollmentRepository enrollmentRepository,
+            CourseAssignmentRepository courseAssignmentRepository
     ) {
         this.userRepository = userRepository;
         this.courseRepository = courseRepository;
         this.enrollmentRepository = enrollmentRepository;
+        this.courseAssignmentRepository = courseAssignmentRepository;
     }
 
     public List<CourseResponse> listCourses() {
@@ -73,8 +77,6 @@ public class CourseAppService {
     }
 
     private int assignmentCount(Course course) {
-        return course.getModules().stream()
-                .mapToInt(module -> module.getAssignments().size())
-                .sum();
+        return courseAssignmentRepository.countByCourseId(course.getId());
     }
 }
