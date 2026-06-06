@@ -1,0 +1,9 @@
+package edu.university.cms.application;
+
+import java.util.List;
+import java.util.UUID;
+
+public record EnrollmentRequest(
+        List<UUID> studentIds
+) {
+}

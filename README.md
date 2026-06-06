@@ -1,5 +1,87 @@
 # design-patterns-course-management-system
 
+## Interactive Instructor App — Current Branch Setup
+
+This section is a temporary setup note for the `interactive-instructor-ui` branch. It is not the final project README. This branch contains the React + Spring Boot interactive instructor app, with the React frontend preserving backend-driven behavior from the existing Spring Boot APIs.
+
+### Run Locally
+
+Start the backend from the repository root:
+
+```bash
+mvn spring-boot:run
+```
+
+The backend runs at `http://localhost:8080`.
+
+Start the frontend from `frontend/`:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+The frontend runs at `http://localhost:5173`.
+
+### Existing Backend Demo Routes
+
+- `/demo`
+- `/trace`
+- `/demo/phase-2`
+- `/demo/phase-3`
+- `/demo/phase-4`
+- `/demo/phase-5`
+
+### React App Routes
+
+- `/`
+- `/courses`
+- `/courses/new`
+- `/students`
+- `/assignments`
+- `/submissions`
+- `/feedback`
+- `/student-feedback`
+- `/trace`
+
+### Recommended Local Verification
+
+```bash
+mvn test
+cd frontend && npm test
+cd frontend && npm run build
+```
+
+Current verified status on this branch:
+
+- Backend tests: 82 passing
+- Frontend tests: 47 passing
+- Frontend build: passing
+
+### Development Rules For This Branch
+
+- The frontend must not add fake business data.
+- The frontend must not synthesize trace events.
+- Backend `PatternTraceService` remains the source of trace data.
+- Design-pattern logic stays in the Java backend.
+- Mock AI and the Mock Java sandbox/test runner are intentional parts of the demo.
+
+### Suggested Demo Flow
+
+1. Start backend.
+2. Start frontend.
+3. Open dashboard.
+4. Create course.
+5. Enroll students.
+6. Create assignment/rubric.
+7. Create submission.
+8. Run Mock AI Analysis.
+9. Review feedback.
+10. Send final feedback.
+11. View Student Feedback.
+12. View Full Trace.
+
 ## Team Members
 
 - Sriram Madduri
