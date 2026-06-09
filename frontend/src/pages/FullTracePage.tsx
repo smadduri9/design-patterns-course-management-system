@@ -63,6 +63,20 @@ export function FullTracePage() {
     void loadTrace(appliedFilters);
   }, [appliedFilters]);
 
+  // Poll so newly generated backend events appear without a manual reload.
+  useEffect(() => {
+    const intervalId = window.setInterval(() => {
+      getTrace(appliedFilters)
+        .then((traceEvents) => {
+          setEvents(traceEvents);
+          setError(null);
+        })
+        .catch(() => undefined);
+    }, 3000);
+
+    return () => window.clearInterval(intervalId);
+  }, [appliedFilters]);
+
   async function loadTrace(nextFilters: TraceFilters) {
     setIsLoading(true);
     try {
@@ -91,7 +105,7 @@ export function FullTracePage() {
       <section className="hero-card hero-card--compact page-hero">
         <div>
           <p className="eyebrow">Full Trace</p>
-          <h2 id="full-trace-title">Backend Design Pattern Trace</h2>
+          <h2 id="full-trace-title">Design Pattern Trace</h2>
         </div>
         <p>Only official backend PatternTraceService events are shown here.</p>
       </section>
@@ -99,8 +113,8 @@ export function FullTracePage() {
       <section className="card trace-filter-card" aria-labelledby="trace-filter-title">
         <div className="section-heading">
           <div>
-            <p className="eyebrow">Evidence Filters</p>
-            <h2 id="trace-filter-title">Filter backend events</h2>
+            <p className="eyebrow">Filters</p>
+            <h2 id="trace-filter-title">Filter events</h2>
           </div>
           <span className="badge">{events.length} events</span>
         </div>
@@ -172,9 +186,14 @@ export function FullTracePage() {
         <div className="section-heading">
           <div>
             <p className="eyebrow">PatternTraceService</p>
-            <h2 id="trace-results-title">Backend trace evidence</h2>
+            <h2 id="trace-results-title">Pattern activity log</h2>
           </div>
-          <span className="badge">{events.length} events</span>
+          <div className="heading-actions">
+            <span className="badge badge--success live-badge">
+              <i className="live-dot" aria-hidden="true" />Live
+            </span>
+            <span className="badge">{events.length} events</span>
+          </div>
         </div>
 
         {isLoading ? <p className="muted">Loading backend trace events...</p> : null}

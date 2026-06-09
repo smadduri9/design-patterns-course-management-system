@@ -9,7 +9,6 @@ import {
   getSubmission,
 } from '../api/submissionsApi';
 import { getStudents } from '../api/usersApi';
-import { TracePanel } from '../components/trace/TracePanel';
 import type {
   AIAnalysisReportResponse,
   AssignmentResponse,
@@ -39,7 +38,6 @@ export function SubmissionsPage() {
   const [isLoadingDetail, setIsLoadingDetail] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [traceRefreshKey, setTraceRefreshKey] = useState(0);
   const [error, setError] = useState<string | null>(null);
 
   const selectedAssignment = useMemo(
@@ -180,7 +178,6 @@ export function SubmissionsPage() {
       await analyzeSubmission(selectedSubmissionId);
       await loadSubmissions(selectedAssignmentId, selectedSubmissionId);
       await loadSubmissionDetail(selectedSubmissionId);
-      setTraceRefreshKey((current) => current + 1);
       setError(null);
     } catch (caughtError) {
       setError(caughtError instanceof Error ? caughtError.message : 'Unable to run Mock AI Analysis');
@@ -197,8 +194,8 @@ export function SubmissionsPage() {
           <h2 id="submissions-title">Submissions and Mock AI Analysis</h2>
         </div>
         <p>
-          Create backend submissions, then explicitly run Mock AI Analysis or the Mock Java sandbox/test runner through the
-          existing Spring Boot APIs.
+          Collect student submissions for an assignment, then run AI analysis to generate rubric findings,
+          suggested feedback, and a grade recommendation.
         </p>
       </div>
 
@@ -209,7 +206,7 @@ export function SubmissionsPage() {
           <section className="card" aria-labelledby="submission-selector-title">
             <div className="section-heading">
               <div>
-                <p className="eyebrow">Backend Assignment</p>
+                <p className="eyebrow">Assignment</p>
                 <h2 id="submission-selector-title">Select assignment</h2>
               </div>
             </div>
@@ -222,7 +219,7 @@ export function SubmissionsPage() {
                   onChange={(event) => setSelectedCourseId(event.target.value)}
                   disabled={isLoadingCourses}
                 >
-                  {courses.length === 0 ? <option value="">No backend courses yet</option> : null}
+                  {courses.length === 0 ? <option value="">No courses yet</option> : null}
                   {courses.map((course) => (
                     <option value={course.id} key={course.id}>
                       {course.title}
@@ -238,7 +235,7 @@ export function SubmissionsPage() {
                   onChange={(event) => setSelectedAssignmentId(event.target.value)}
                   disabled={isLoadingAssignments || assignments.length === 0}
                 >
-                  {assignments.length === 0 ? <option value="">No backend assignments yet</option> : null}
+                  {assignments.length === 0 ? <option value="">No assignments yet</option> : null}
                   {assignments.map((assignment) => (
                     <option value={assignment.id} key={assignment.id}>
                       {assignment.title}
@@ -252,7 +249,7 @@ export function SubmissionsPage() {
           <section className="card" aria-labelledby="submission-list-title">
             <div className="section-heading">
               <div>
-                <p className="eyebrow">Backend Submissions</p>
+                <p className="eyebrow">Submissions</p>
                 <h2 id="submission-list-title">Submission list</h2>
               </div>
               <span className="badge">{submissions.length} submissions</span>
@@ -310,7 +307,7 @@ export function SubmissionsPage() {
               <label className="field">
                 Student
                 <select value={studentId} onChange={(event) => setStudentId(event.target.value)}>
-                  {students.length === 0 ? <option value="">No backend students yet</option> : null}
+                  {students.length === 0 ? <option value="">No students yet</option> : null}
                   {students.map((student) => (
                     <option value={student.id} key={student.id}>
                       {student.name}
@@ -395,8 +392,6 @@ export function SubmissionsPage() {
               </div>
             ) : null}
           </section>
-
-          <TracePanel key={traceRefreshKey} title="Trace After Analysis" limit={5} />
         </div>
       </section>
     </section>
@@ -429,7 +424,7 @@ function AnalysisReport({ report }: { report: AIAnalysisReportResponse }) {
       </div>
 
       <div>
-        <h4>Mock Java sandbox/test runner results</h4>
+        <h4>Automated test results</h4>
         {report.testResults.length === 0 ? (
           <p className="muted">No Java code test results returned.</p>
         ) : (

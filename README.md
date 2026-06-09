@@ -1,167 +1,58 @@
-# design-patterns-course-management-system
+# Course Management System
 
-## Interactive Instructor App — Current Branch Setup
+> An AI-assisted course management platform built to make **18 object-oriented design patterns** observable through real, running code.
 
-This section is a temporary setup note for the `interactive-instructor-ui` branch. It is not the final project README. This branch contains the React + Spring Boot interactive instructor app, with the React frontend preserving backend-driven behavior from the existing Spring Boot APIs.
+[![Backend](https://img.shields.io/badge/backend-Spring%20Boot%203.3-6db33f)](#tech-stack)
+[![Frontend](https://img.shields.io/badge/frontend-React%2019%20%2B%20Vite-4f46e5)](#tech-stack)
+[![Java](https://img.shields.io/badge/Java-21-007396)](#tech-stack)
+[![Tests](https://img.shields.io/badge/tests-backend%2082%20%C2%B7%20frontend%2047-2ea44f)](#testing)
 
-### Run Locally
+The product scope is intentionally focused: an instructor creates courses, assignments, and rubrics; a student submits PDF/text or Java code; the system runs a mock AI analysis and produces an `AIAnalysisReport`; the instructor reviews and finalizes feedback; and the student sees the result. Every meaningful step is driven by a classic design pattern in the Spring Boot backend, and each pattern execution is recorded by `PatternTraceService` so it can be inspected live on the **Full Trace** page.
 
-Start the backend from the repository root:
+---
 
-```bash
-mvn spring-boot:run
-```
+## Table of Contents
 
-The backend runs at `http://localhost:8080`.
+- [Overview](#overview)
+- [Architecture](#architecture)
+- [Design Patterns](#design-patterns)
+- [Getting Started](#getting-started)
+- [Testing](#testing)
+- [Application Routes](#application-routes)
+- [Demo Flow](#demo-flow)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Scope & Limitations](#scope--limitations)
+- [Team](#team)
 
-Start the frontend from `frontend/`:
+---
 
-```bash
-cd frontend
-npm install
-npm run dev
-```
+## Overview
 
-The frontend runs at `http://localhost:5173`.
+Course-management systems often hide their architecture behind frameworks and data plumbing. This project deliberately keeps the feature set small so the object-oriented design is easy to read, test, and demonstrate. The goal is not production AI — it is clear, well-structured collaboration between objects.
 
-### Existing Backend Demo Routes
+**Core capabilities**
 
-- `/demo`
-- `/trace`
-- `/demo/phase-2`
-- `/demo/phase-3`
-- `/demo/phase-4`
-- `/demo/phase-5`
+- Instructors build course content (courses, modules, assignments, rubrics).
+- Students submit PDF/text essays or Java code.
+- Submissions are validated and advanced through a state machine.
+- A mock AI analyzer and a mock Java test runner produce a structured `AIAnalysisReport`.
+- Instructors edit feedback, snapshot drafts, restore earlier versions, and send final feedback.
+- Students view their finalized feedback, grade, and notification.
+- A live trace surfaces every design-pattern execution behind these flows.
 
-### React App Routes
+## Architecture
 
-- `/`
-- `/courses`
-- `/courses/new`
-- `/students`
-- `/assignments`
-- `/submissions`
-- `/feedback`
-- `/student-feedback`
-- `/trace`
+The system is split into a backend that owns all business logic and a frontend that renders it.
 
-### Recommended Local Verification
+- **Backend (Spring Boot)** — Holds every design-pattern implementation, the submission workflow, the mock AI/sandbox adapters, and `PatternTraceService`. It exposes REST APIs under `/api/app/**` plus scripted demo routes under `/demo/**`.
+- **Frontend (React)** — An instructor-facing single-page app that consumes the backend APIs. It never fabricates business data or trace events; it only displays what the backend returns. During development it proxies `/api` to `http://localhost:8080`.
 
-```bash
-mvn test
-cd frontend && npm test
-cd frontend && npm run build
-```
+This separation is intentional: the frontend can evolve independently, while the patterns and their trace remain the single source of truth in Java.
 
-Current verified status on this branch:
+## Design Patterns
 
-- Backend tests: 82 passing
-- Frontend tests: 47 passing
-- Frontend build: passing
-
-### Development Rules For This Branch
-
-- The frontend must not add fake business data.
-- The frontend must not synthesize trace events.
-- Backend `PatternTraceService` remains the source of trace data.
-- Design-pattern logic stays in the Java backend.
-- Mock AI and the Mock Java sandbox/test runner are intentional parts of the demo.
-
-### Suggested Demo Flow
-
-1. Start backend.
-2. Start frontend.
-3. Open dashboard.
-4. Create course.
-5. Enroll students.
-6. Create assignment/rubric.
-7. Create submission.
-8. Run Mock AI Analysis.
-9. Review feedback.
-10. Send final feedback.
-11. View Student Feedback.
-12. View Full Trace.
-
-## Team Members
-
-- Sriram Madduri
-- Rakshitha Srinivasa
-- Ankush Rai
-
-## Project Overview
-
-`design-patterns-course-management-system` is an AI-assisted course management demo for a university Design Patterns course. The features are intentionally small, while the backend architecture makes exactly 18 object-oriented design patterns visible through code, tests, demo routes, and a trace panel.
-
-The system lets an Instructor create course content, lets a Student submit PDF/text or Java code work, runs mock analysis, produces an `AIAnalysisReport`, supports instructor feedback review, and exposes final feedback to the Student.
-
-## Problem Statement
-
-Course-management systems often hide architectural decisions behind frameworks and data plumbing. This project keeps the product scope narrow so the design-pattern implementation is easy to inspect and demonstrate. The goal is not production AI; the goal is clear object-oriented collaboration.
-
-## Main Workflow
-
-1. Instructor creates a course, module, assignment, and rubric.
-2. Student submits PDF/text content or Java code.
-3. The submission workflow validates the request and advances submission state.
-4. The system chooses the correct analyzer for the submission type.
-5. PDF/text content is summarized and mapped to the rubric through a mock AI adapter.
-6. Java code is passed through a mock test runner adapter, then explained through the mock AI adapter.
-7. The system creates an `AIAnalysisReport` with summary, rubric findings, test results when applicable, suggested feedback, and grade suggestion.
-8. Instructor edits AI feedback, saves draft snapshots, restores a prior draft if needed, and sends final feedback.
-9. Student views final feedback, grade, notification, and AI summary.
-10. `/trace` shows official backend pattern trace events generated during the demo flows.
-
-## Tech Stack
-
-- Java 21
-- Spring Boot 3
-- Maven
-- JUnit 5
-- In-memory repositories
-- Basic HTML returned by Spring controllers for the landing and trace pages
-
-## How To Run
-
-```bash
-mvn spring-boot:run
-```
-
-The application starts on `http://localhost:8080`.
-
-## How To Test
-
-```bash
-mvn test
-```
-
-## Demo URLs
-
-- Primary one-link demo: `http://localhost:8080/demo`
-- Landing page alias: `http://localhost:8080/`
-- Backup/debug Phase 2 course creation: `http://localhost:8080/demo/phase-2`
-- Backup/debug Phase 3 submission workflow: `http://localhost:8080/demo/phase-3`
-- Backup/debug Phase 4 mock AI analysis and Java code submission: `http://localhost:8080/demo/phase-4`
-- Backup/debug Phase 5 review and notification: `http://localhost:8080/demo/phase-5`
-- Design Pattern Trace Panel: `http://localhost:8080/trace`
-
-## Mock AI And Mock Test Runner
-
-The AI and code execution pieces are deliberately simulated. `MockAIServiceAdapter` adapts a local `MockAIService` to the internal `AIClient` interface. `MockCodeSandboxAdapter` adapts a local `MockCodeSandbox` to the internal `SandboxRunner` interface. The Java code path returns deterministic mock test results; it does not execute untrusted code.
-
-## UI Notes
-
-The Figma-generated frontend was used as visual guidance for cards, spacing, dashboard layout, and the right-side trace panel concept. The running demo is rendered by Spring Boot from backend data. Pattern trace events come from `PatternTraceService`, not hardcoded frontend data.
-
-## Scope Limitations
-
-- Only Instructor and Student roles are modeled.
-- Data is stored in memory for demo clarity.
-- External AI providers are not called.
-- Java code is evaluated by a deterministic mock test runner.
-- The UI is deliberately minimal.
-- The project focuses on object-oriented design patterns rather than production platform concerns.
-
-## Pattern Mapping
+All 18 patterns are implemented in the backend and emit trace events during the demo flows.
 
 | Category | Pattern | Main Classes | Demo |
 | --- | --- | --- | --- |
@@ -183,3 +74,134 @@ The Figma-generated frontend was used as visual guidance for cards, spacing, das
 | Behavioral | Template Method | `AbstractSubmissionAnalyzer`, `TextSubmissionAnalyzer`, `CodeSubmissionAnalyzer` | `/demo/phase-4` |
 | Behavioral | Memento | `FeedbackDraft`, `FeedbackDraftMemento`, `FeedbackDraftHistory` | `/demo/phase-5` |
 | Behavioral | Iterator | `CourseComponentIterator`, `RubricCriteriaIterator` | `/demo/phase-2` |
+
+## Getting Started
+
+### Prerequisites
+
+- Java 21+
+- Maven 3.9+
+- Node.js 20+ and npm
+
+### 1. Start the backend
+
+From the repository root:
+
+```bash
+mvn spring-boot:run
+```
+
+The API runs at `http://localhost:8080`. Data is held in memory, so restarting the backend resets all courses, submissions, and trace events.
+
+### 2. Start the frontend
+
+From `frontend/`:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+The app runs at `http://localhost:5173` and proxies API calls to the backend.
+
+## Testing
+
+```bash
+# Backend unit/integration tests
+mvn test
+
+# Frontend tests
+cd frontend && npm test
+
+# Frontend production build
+cd frontend && npm run build
+```
+
+Verified status: **backend 82 tests passing**, **frontend 47 tests passing**, **frontend build passing**.
+
+## Application Routes
+
+**React app (`http://localhost:5173`)**
+
+| Route | Purpose |
+| --- | --- |
+| `/` | Dashboard overview |
+| `/courses`, `/courses/new` | Browse and create courses |
+| `/students` | Enrolled students |
+| `/assignments` | Assignments and rubrics |
+| `/submissions` | Submit and run mock AI analysis |
+| `/feedback` | Instructor feedback review and drafts |
+| `/student-feedback` | Student view of finalized feedback |
+| `/trace` | Live design-pattern trace (auto-refreshing) |
+
+**Backend demo routes (`http://localhost:8080`)**
+
+| Route | Purpose |
+| --- | --- |
+| `/demo` | One-link scripted walkthrough |
+| `/demo/phase-2` | Course creation |
+| `/demo/phase-3` | Submission workflow |
+| `/demo/phase-4` | Mock AI analysis and Java code path |
+| `/demo/phase-5` | Review and notification |
+| `/trace` | Backend pattern trace |
+
+## Demo Flow
+
+A full presentation script lives in [`DEMO_SCRIPT.md`](DEMO_SCRIPT.md). The short version:
+
+1. Start the backend and frontend.
+2. Open the **Dashboard**.
+3. Create a course and enroll students.
+4. Create an assignment with a rubric.
+5. Create a submission.
+6. Run **Mock AI Analysis**.
+7. Review and edit feedback, save/restore drafts.
+8. Send **Final Feedback**.
+9. View the **Student Feedback** page.
+10. Open **Full Trace** to see every pattern that fired.
+
+> Keep the backend running for the whole demo — restarting it clears the in-memory trace. Patterns are recorded during the submission, analysis, and feedback flow, so run those steps before opening the trace.
+
+## Tech Stack
+
+| Layer | Technologies |
+| --- | --- |
+| Backend | Java 21, Spring Boot 3.3, Maven, JUnit 5, in-memory repositories |
+| Frontend | React 19, TypeScript, React Router 7, Vite 8 |
+| Testing | JUnit 5 (backend), Vitest + React Testing Library (frontend) |
+
+### Mock AI and mock test runner
+
+The AI and code-execution pieces are deliberately simulated. `MockAIServiceAdapter` adapts a local `MockAIService` to the internal `AIClient` interface, and `MockCodeSandboxAdapter` adapts a local `MockCodeSandbox` to the internal `SandboxRunner` interface. The Java code path returns deterministic mock test results and never executes untrusted code.
+
+## Project Structure
+
+```
+.
+├── src/                # Spring Boot backend (all design-pattern implementations)
+├── frontend/           # React + TypeScript instructor app
+│   └── src/
+│       ├── api/        # Typed REST clients
+│       ├── app/        # App shell and routing
+│       ├── pages/      # Feature pages
+│       └── styles/     # Design tokens and global styles
+├── docs/               # Diagrams and slides
+├── figma/              # UI design references
+├── DEMO_SCRIPT.md      # Presentation walkthrough
+└── pom.xml
+```
+
+## Scope & Limitations
+
+- Only Instructor and Student roles are modeled.
+- Data is stored in memory for demo clarity.
+- No external AI providers are called.
+- Java code is evaluated by a deterministic mock test runner.
+- The product surface is intentionally narrow so the design patterns stay the focus.
+
+## Team
+
+- Sriram Madduri
+- Rakshitha Srinivasa
+- Ankush Rai

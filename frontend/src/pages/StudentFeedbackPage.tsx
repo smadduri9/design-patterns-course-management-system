@@ -11,6 +11,9 @@ import type {
   SubmissionListItemResponse,
 } from '../api/types';
 
+const NOT_FINALIZED_MESSAGE =
+  'Student feedback is not finalized or unavailable yet \u2014 once the instructor sends final feedback, it will appear here.';
+
 export function StudentFeedbackPage() {
   const [courses, setCourses] = useState<CourseResponse[]>([]);
   const [assignments, setAssignments] = useState<AssignmentResponse[]>([]);
@@ -105,19 +108,23 @@ export function StudentFeedbackPage() {
   }
 
   async function loadStudentFeedback(submissionId: string) {
+    // Student feedback only exists after the instructor finalizes a submission.
+    const submission = submissions.find((item) => item.id === submissionId);
+    if (submission && submission.status !== 'FINALIZED') {
+      setFeedback(null);
+      setFeedbackMessage(NOT_FINALIZED_MESSAGE);
+      return;
+    }
+
     setIsLoadingFeedback(true);
     try {
       const feedbackResponse = await getStudentFeedback(submissionId);
       setFeedback(feedbackResponse);
       setFeedbackMessage(null);
       setError(null);
-    } catch (caughtError) {
+    } catch {
       setFeedback(null);
-      setFeedbackMessage(
-        caughtError instanceof Error
-          ? `Student feedback is not finalized or unavailable: ${caughtError.message}`
-          : 'Student feedback is not finalized or unavailable.',
-      );
+      setFeedbackMessage(NOT_FINALIZED_MESSAGE);
     } finally {
       setIsLoadingFeedback(false);
     }
@@ -131,8 +138,8 @@ export function StudentFeedbackPage() {
           <h2 id="student-feedback-title">Finalized student feedback</h2>
         </div>
         <p>
-          Select a backend submission and render the finalized feedback returned by the student feedback API. Drafts and
-          unfinalized responses are shown as unavailable instead of mocked.
+          This is the student's view of their finalized feedback, grade, and notification. Submissions that have not
+          been finalized yet are shown as unavailable.
         </p>
       </div>
 
@@ -151,7 +158,7 @@ export function StudentFeedbackPage() {
             <label className="field">
               Course
               <select value={selectedCourseId} onChange={(event) => setSelectedCourseId(event.target.value)} disabled={isLoadingCourses}>
-                {courses.length === 0 ? <option value="">No backend courses yet</option> : null}
+                {courses.length === 0 ? <option value="">No courses yet</option> : null}
                 {courses.map((course) => (
                   <option value={course.id} key={course.id}>{course.title}</option>
                 ))}
@@ -164,7 +171,7 @@ export function StudentFeedbackPage() {
                 onChange={(event) => setSelectedAssignmentId(event.target.value)}
                 disabled={isLoadingAssignments || assignments.length === 0}
               >
-                {assignments.length === 0 ? <option value="">No backend assignments yet</option> : null}
+                {assignments.length === 0 ? <option value="">No assignments yet</option> : null}
                 {assignments.map((assignment) => (
                   <option value={assignment.id} key={assignment.id}>{assignment.title}</option>
                 ))}
@@ -227,10 +234,10 @@ export function StudentFeedbackPage() {
               </section>
 
               <section className="analysis-report">
-                <h3>Mock AI summary</h3>
+                <h3>AI summary</h3>
                 <p>{feedback.aiSummary}</p>
                 <p className="muted">
-                  Mock Java sandbox/test runner results: {feedback.report.testResults.length}
+                  Automated test results: {feedback.report.testResults.length}
                 </p>
               </section>
 
