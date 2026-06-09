@@ -148,7 +148,7 @@ Verified status: **backend 82 tests passing**, **frontend 47 tests passing**, **
 
 ## Demo Flow
 
-A full presentation script lives in [`DEMO_SCRIPT.md`](DEMO_SCRIPT.md). The short version:
+The presentation flow, step by step:
 
 1. Start the backend and frontend.
 2. Open the **Dashboard**.
@@ -188,7 +188,6 @@ The AI and code-execution pieces are deliberately simulated. `MockAIServiceAdapt
 │       └── styles/     # Design tokens and global styles
 ├── docs/               # Diagrams and slides
 ├── figma/              # UI design references
-├── DEMO_SCRIPT.md      # Presentation walkthrough
 └── pom.xml
 ```
 

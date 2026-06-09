@@ -7,3 +7,6 @@ target/
 .env
 node_modules/
 dist/
+
+# Local-only demo notes
+DEMO_SCRIPT.md
