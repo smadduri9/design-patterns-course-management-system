@@ -145,11 +145,10 @@ export function CoursesPage({ createFocused = false }: CoursesPageProps) {
       <div className="hero-card hero-card--compact page-hero">
         <div>
           <p className="eyebrow">{createFocused ? 'Course Builder' : 'Courses'}</p>
-          <h2 id="courses-title">{createFocused ? 'Create a backend course' : 'Courses and roster'}</h2>
+          <h2 id="courses-title">{createFocused ? 'Create a new course' : 'Courses and roster'}</h2>
         </div>
         <p>
-          This screen reads and writes course data through the Spring Boot <code>/api/app/courses</code> APIs.
-          Roster enrollment uses real seeded students from <code>/api/app/students</code>.
+          Create courses and manage who is enrolled. Select a course to view its roster and add students.
         </p>
       </div>
 
@@ -182,7 +181,7 @@ export function CoursesPage({ createFocused = false }: CoursesPageProps) {
           <section className="card" aria-labelledby="courses-list-title">
             <div className="section-heading">
               <div>
-                <p className="eyebrow">Backend Courses</p>
+                <p className="eyebrow">All Courses</p>
                 <h2 id="courses-list-title">Course list</h2>
               </div>
               <div className="heading-actions">
@@ -254,7 +253,7 @@ export function CoursesPage({ createFocused = false }: CoursesPageProps) {
               <div>
                 <h3>Available students</h3>
                 {availableStudents.length === 0 ? (
-                  <p className="muted">All backend students are already enrolled in this course.</p>
+                  <p className="muted">All students are already enrolled in this course.</p>
                 ) : (
                   <div className="checkbox-list" aria-label="Available students">
                     {availableStudents.map((student) => (

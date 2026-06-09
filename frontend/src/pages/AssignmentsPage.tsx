@@ -172,7 +172,7 @@ export function AssignmentsPage() {
           <h2 id="assignments-title">Assignment and rubric builder</h2>
         </div>
         <p>
-          This screen uses backend course and assignment APIs only. Submissions and analysis remain out of scope for this phase.
+          Create assignments for a course and define the rubric students will be graded against.
         </p>
       </div>
 
@@ -196,7 +196,7 @@ export function AssignmentsPage() {
                 onChange={(event) => setSelectedCourseId(event.target.value)}
                 disabled={isLoadingCourses}
               >
-                {courses.length === 0 ? <option value="">No backend courses yet</option> : null}
+                {courses.length === 0 ? <option value="">No courses yet</option> : null}
                 {courses.map((course) => (
                   <option value={course.id} key={course.id}>
                     {course.title}
@@ -264,7 +264,7 @@ export function AssignmentsPage() {
             <label className="field">
               Course
               <select value={selectedCourseId} onChange={(event) => setSelectedCourseId(event.target.value)}>
-                {courses.length === 0 ? <option value="">No backend courses yet</option> : null}
+                {courses.length === 0 ? <option value="">No courses yet</option> : null}
                 {courses.map((course) => (
                   <option value={course.id} key={course.id}>
                     {course.title}

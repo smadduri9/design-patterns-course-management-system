@@ -39,17 +39,17 @@ export function StudentsPage() {
       <div className="hero-card hero-card--compact page-hero">
         <div>
           <p className="eyebrow">Student Roster</p>
-          <h2 id="students-title">Seeded students from the backend</h2>
+          <h2 id="students-title">Enrolled students</h2>
         </div>
         <p>
-          This page reads only from <code>/api/app/students</code>. Enrollment workflows remain on the Courses page.
+          Everyone currently enrolled across your courses. Manage enrollment from the Courses page.
         </p>
       </div>
 
       {isLoading ? <section className="card">Loading students...</section> : null}
       {error ? <section className="card error-text">{error}</section> : null}
       {!isLoading && !error ? (
-        <section className="student-grid student-grid--roster" aria-label="Seeded students">
+        <section className="student-grid student-grid--roster" aria-label="Enrolled students">
           {students.map((student) => (
             <article className="student-card" key={student.id}>
               <div className="avatar" aria-hidden="true">
@@ -58,9 +58,9 @@ export function StudentsPage() {
               <div>
                 <h3>{student.name}</h3>
                 <p>{student.role}</p>
-                <small>Email not provided by backend API</small>
+                <small>No email on file</small>
               </div>
-              <span className="badge badge--success">Backend seeded</span>
+              <span className="badge badge--success">Active</span>
             </article>
           ))}
         </section>

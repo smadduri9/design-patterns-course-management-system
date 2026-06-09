@@ -14,7 +14,7 @@ describe('FullTracePage', () => {
 
     render(<FullTracePage />);
 
-    expect(await screen.findByRole('heading', { name: /Backend Design Pattern Trace/i })).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: /Design Pattern Trace/i })).toBeInTheDocument();
     expect(screen.getByText(/Only official backend PatternTraceService events/i)).toBeInTheDocument();
     expect(await screen.findByRole('option', { name: 'Adapter' })).toBeInTheDocument();
     expect(screen.getAllByText('Memento')).not.toHaveLength(0);

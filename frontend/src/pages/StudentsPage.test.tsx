@@ -23,7 +23,7 @@ describe('StudentsPage', () => {
     expect(await screen.findByText('Demo Student 1')).toBeInTheDocument();
     expect(screen.getByText('Demo Student 5')).toBeInTheDocument();
     expect(screen.getAllByText('STUDENT')).toHaveLength(5);
-    expect(screen.getAllByText(/Email not provided by backend API/i)).toHaveLength(5);
+    expect(screen.getAllByText(/No email on file/i)).toHaveLength(5);
     expect(fetchMock).toHaveBeenCalledWith('/api/app/students', {
       method: 'GET',
       headers: {

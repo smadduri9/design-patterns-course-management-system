@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { getDashboard } from '../api/dashboardApi';
 import { getPatterns } from '../api/patternsApi';
 import type { DashboardResponse, PatternResponse } from '../api/types';
-import { TracePanel } from '../components/trace/TracePanel';
 
 const countLabels: Record<keyof DashboardResponse['counts'], string> = {
   courses: 'Courses',
@@ -15,12 +14,12 @@ const countLabels: Record<keyof DashboardResponse['counts'], string> = {
 };
 
 const demoFlow = [
-  { to: '/courses', label: 'Courses', detail: 'Create a course and review roster data.' },
-  { to: '/assignments', label: 'Assignments', detail: 'Build assignments and backend rubrics.' },
-  { to: '/submissions', label: 'Submissions', detail: 'Create submissions and run Mock AI analysis.' },
-  { to: '/feedback', label: 'Feedback Review', detail: 'Save drafts and send final instructor feedback.' },
+  { to: '/courses', label: 'Courses', detail: 'Create a course and manage the enrolled roster.' },
+  { to: '/assignments', label: 'Assignments', detail: 'Build assignments with structured rubrics.' },
+  { to: '/submissions', label: 'Submissions', detail: 'Collect submissions and run AI analysis.' },
+  { to: '/feedback', label: 'Feedback Review', detail: 'Draft, refine, and send instructor feedback.' },
   { to: '/student-feedback', label: 'Student Feedback', detail: 'Open the finalized student-facing view.' },
-  { to: '/trace', label: 'Full Trace', detail: 'Filter official PatternTraceService evidence.' },
+  { to: '/trace', label: 'Full Trace', detail: 'Inspect the live design-pattern activity log.' },
 ];
 
 export function DashboardPage() {
@@ -57,17 +56,15 @@ export function DashboardPage() {
   }, []);
 
   return (
-    <div className="dashboard-layout">
-      <section className="dashboard-main">
+    <section className="dashboard-main">
         <div className="hero-card page-hero">
           <div>
             <p className="eyebrow">Instructor Dashboard</p>
-            <h2>Interactive instructor app</h2>
+            <h2>Manage your courses end to end</h2>
           </div>
           <p>
-            Follow the professor demo from course setup through assignments, submissions, Mock AI review,
-            final feedback, and backend PatternTraceService evidence. Every value shown here comes from
-            Spring Boot <code>/api/app</code> endpoints.
+            Set up courses, build assignments, collect student submissions, run AI-assisted analysis, and
+            deliver final feedback &mdash; all in one workspace.
           </p>
         </div>
 
@@ -76,7 +73,7 @@ export function DashboardPage() {
         {dashboard ? (
           <>
             <section className="card instructor-card" aria-labelledby="instructor-title">
-              <p className="eyebrow">Seeded Instructor</p>
+              <p className="eyebrow">Signed in as</p>
               <h2 id="instructor-title">{dashboard.instructor.name}</h2>
               <p>{dashboard.instructor.role}</p>
             </section>
@@ -89,7 +86,7 @@ export function DashboardPage() {
                     <i aria-hidden="true">{String(countLabels[key as keyof DashboardResponse['counts']][0])}</i>
                   </div>
                   <strong>{value}</strong>
-                  <small>Backend count</small>
+                  <small>Live total</small>
                 </article>
               ))}
             </section>
@@ -99,10 +96,10 @@ export function DashboardPage() {
         <section className="card" aria-labelledby="demo-flow-title">
           <div className="section-heading">
             <div>
-              <p className="eyebrow">Professor Demo Flow</p>
-              <h2 id="demo-flow-title">Recommended walkthrough</h2>
+              <p className="eyebrow">Workflow</p>
+              <h2 id="demo-flow-title">Get started</h2>
             </div>
-            <span className="badge">Backend-only data</span>
+            <span className="badge">Live data</span>
           </div>
           <div className="demo-flow">
             {demoFlow.map((step, index) => (
@@ -118,8 +115,8 @@ export function DashboardPage() {
         <section className="card" aria-labelledby="patterns-title">
           <div className="section-heading">
             <div>
-              <p className="eyebrow">Official Catalog</p>
-              <h2 id="patterns-title">Design Patterns From Backend</h2>
+              <p className="eyebrow">Architecture</p>
+              <h2 id="patterns-title">Design Patterns In Use</h2>
             </div>
             <span className="badge">{patterns.length} patterns</span>
           </div>
@@ -135,9 +132,6 @@ export function DashboardPage() {
             </div>
           )}
         </section>
-      </section>
-
-      <TracePanel />
-    </div>
+    </section>
   );
 }

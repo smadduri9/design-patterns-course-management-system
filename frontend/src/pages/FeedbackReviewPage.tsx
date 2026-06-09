@@ -9,7 +9,6 @@ import {
   saveFeedbackDraft,
 } from '../api/feedbackApi';
 import { getAssignmentSubmissions, getSubmission } from '../api/submissionsApi';
-import { TracePanel } from '../components/trace/TracePanel';
 import type {
   AssignmentResponse,
   CourseResponse,
@@ -36,7 +35,6 @@ export function FeedbackReviewPage() {
   const [isLoadingFeedback, setIsLoadingFeedback] = useState(false);
   const [isSavingDraft, setIsSavingDraft] = useState(false);
   const [isFinalizing, setIsFinalizing] = useState(false);
-  const [traceRefreshKey, setTraceRefreshKey] = useState(0);
   const [error, setError] = useState<string | null>(null);
 
   const selectedAssignment = useMemo(
@@ -123,14 +121,25 @@ export function FeedbackReviewPage() {
   async function loadFeedbackState(submissionId: string) {
     setIsLoadingFeedback(true);
     try {
-      const [detailResponse, draftResponse] = await Promise.all([
-        getSubmission(submissionId),
-        getFeedbackDrafts(submissionId),
-      ]);
+      const detailResponse = await getSubmission(submissionId);
       setSubmissionDetail(detailResponse);
-      setDrafts(draftResponse);
-      setFeedbackText(draftResponse.currentFeedback ?? '');
       setFinalResult(null);
+
+      // Feedback drafts only exist once a submission has been analyzed.
+      const analysisReady =
+        detailResponse.hasAnalysisReport ||
+        detailResponse.status === 'AWAITING_REVIEW' ||
+        detailResponse.status === 'FINALIZED';
+
+      if (analysisReady) {
+        const draftResponse = await getFeedbackDrafts(submissionId);
+        setDrafts(draftResponse);
+        setFeedbackText(draftResponse.currentFeedback ?? '');
+      } else {
+        setDrafts(null);
+        setFeedbackText('');
+      }
+
       setError(null);
     } catch (caughtError) {
       setError(caughtError instanceof Error ? caughtError.message : 'Unable to load feedback state');
@@ -193,7 +202,6 @@ export function FeedbackReviewPage() {
         loadSubmissionDetailOnly(selectedSubmissionId),
         selectedAssignmentId ? loadSubmissionsPreservingSelection(selectedAssignmentId, selectedSubmissionId) : Promise.resolve(),
       ]);
-      setTraceRefreshKey((current) => current + 1);
       setError(null);
     } catch (caughtError) {
       setError(caughtError instanceof Error ? caughtError.message : 'Unable to send final feedback');
@@ -228,8 +236,8 @@ export function FeedbackReviewPage() {
           <h2 id="feedback-title">Instructor feedback review</h2>
         </div>
         <p>
-          Review backend analysis results, save feedback drafts, restore draft snapshots, and send final feedback through
-          the Spring Boot feedback APIs.
+          Review the AI analysis, refine your feedback, save draft snapshots you can restore at any time, and send the
+          final feedback to the student.
         </p>
       </div>
 
@@ -249,7 +257,7 @@ export function FeedbackReviewPage() {
               <label className="field">
                 Course
                 <select value={selectedCourseId} onChange={(event) => setSelectedCourseId(event.target.value)} disabled={isLoadingCourses}>
-                  {courses.length === 0 ? <option value="">No backend courses yet</option> : null}
+                  {courses.length === 0 ? <option value="">No courses yet</option> : null}
                   {courses.map((course) => (
                     <option value={course.id} key={course.id}>{course.title}</option>
                   ))}
@@ -262,7 +270,7 @@ export function FeedbackReviewPage() {
                   onChange={(event) => setSelectedAssignmentId(event.target.value)}
                   disabled={isLoadingAssignments || assignments.length === 0}
                 >
-                  {assignments.length === 0 ? <option value="">No backend assignments yet</option> : null}
+                  {assignments.length === 0 ? <option value="">No assignments yet</option> : null}
                   {assignments.map((assignment) => (
                     <option value={assignment.id} key={assignment.id}>{assignment.title}</option>
                   ))}
@@ -390,7 +398,7 @@ export function FeedbackReviewPage() {
                     <h3>Mock AI Analysis</h3>
                     <p>{submissionDetail.report.summary}</p>
                     <p className="muted">
-                      Mock Java sandbox/test runner results: {submissionDetail.report.testResults.length}
+                      Automated test results: {submissionDetail.report.testResults.length}
                     </p>
                   </section>
                 ) : null}
@@ -408,8 +416,6 @@ export function FeedbackReviewPage() {
               </div>
             ) : null}
           </section>
-
-          <TracePanel key={traceRefreshKey} title="Trace After Feedback" limit={5} />
         </div>
       </section>
     </section>

@@ -1,4 +1,4 @@
-import { render, screen, waitFor, within } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { afterEach, describe, expect, it, vi } from 'vitest';
@@ -75,9 +75,6 @@ describe('FeedbackReviewPage', () => {
     expect(await screen.findByRole('heading', { name: /Final feedback sent/i })).toBeInTheDocument();
     expect(screen.getAllByText('Final instructor feedback')).not.toHaveLength(0);
     expect(screen.getAllByText((_, element) => element?.textContent?.includes('92/100') ?? false)).not.toHaveLength(0);
-    await waitFor(() => {
-      expect(fetchMock.mock.calls.filter(([url]) => url === '/api/app/trace').length).toBeGreaterThanOrEqual(2);
-    });
   });
 });
 

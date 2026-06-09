@@ -162,9 +162,6 @@ describe('SubmissionsPage', () => {
     expect(screen.getByText('Uses Adapter correctly.')).toBeInTheDocument();
     expect(screen.getByText(/AdapterTest/i)).toBeInTheDocument();
     expect(screen.getByText(/90\/100/i)).toBeInTheDocument();
-    await waitFor(() => {
-      expect(fetchMock.mock.calls.filter(([url]) => url === '/api/app/trace').length).toBeGreaterThanOrEqual(2);
-    });
   });
 });
 

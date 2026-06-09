@@ -11,16 +11,15 @@ export function PendingApiPage({ title, eyebrow, apiHint }: PendingApiPageProps)
         <p className="eyebrow">{eyebrow}</p>
         <h2 id="pending-title">{title}</h2>
         <p>
-          Backend API pending for this frontend screen. This route is intentionally not rendering placeholder business data.
+          This screen is coming soon. No placeholder data is shown until it is fully available.
         </p>
       </div>
 
       <section className="card empty-state">
-        <span className="badge">Backend API pending</span>
-        <h3>No mock records shown</h3>
+        <span className="badge">Coming soon</span>
+        <h3>Nothing to show yet</h3>
         <p>
-          This screen will activate after the corresponding <code>{apiHint}</code> API is available to this frontend phase.
-          Until then, React will not synthesize courses, assignments, submissions, feedback, or trace events.
+          This screen will activate once the <code>{apiHint}</code> service is connected.
         </p>
       </section>
     </section>
